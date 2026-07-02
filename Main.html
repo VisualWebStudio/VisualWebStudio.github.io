@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pl" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisualWebStudio | Premium Dev Agency</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- SYSTEM ZMIENNYCH (THEME ENGINE) --- */
+        :root[data-theme="dark"] {
+            --bg: #0a0a0c;
+            --bg-secondary: #121217;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text: #ffffff;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.3);
+            --border: rgba(255, 255, 255, 0.08);
+            --glass: blur(12px);
+        }
+
+        :root[data-theme="light"] {
+            --bg: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.1);
+            --border: rgba(0, 0, 0, 0.08);
+            --glass: blur(12px);
+        }
+
+        /* --- RESET & BASE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+        }
+
+        /* --- NAVIGATION --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid transparent;
+        }
+
+        nav.scrolled {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 12px 5%;
+            backdrop-filter: var(--glass);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: var(--text);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+        .logo span { color: var(--accent); }
+
+        .nav-actions { display: flex; align-items: center; gap: 20px; }
+
+        .theme-switch {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text);
+        }
+        .theme-switch:hover {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent-glow);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 5%;
+            background: radial-gradient(circle at 50% 40%, var(--accent-glow) 0%, transparent 60%);
+        }
+
+        .hero-badge {
+            padding: 8px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 8vw, 5.5rem);
+            line-height: 1.0;
+            margin-bottom: 25px;
+            letter-spacing: -2px;
+        }
+        .hero h1 span {
+            color: var(--accent);
+            text-shadow: 0 0 40px var(--accent-glow);
+        }
+
+        .hero p {
+            max-width: 650px;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 40px;
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            padding: 14px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 25px var(--accent);
+        }
+
+        /* --- BENTO GRID SERVICES --- */
+        .section-padding { padding: 100px 5%; }
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2.8rem; margin-bottom: 15px; }
+        .section-title p { color: var(--text-muted); }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 280px);
+            gap: 20px;
+        }
+
+        .bento-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 35px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+        .bento-item:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px var(--accent-glow);
+        }
+        .bento-item i {
+            font-size: 2.3rem;
+            color: var(--accent);
+            margin-bottom: auto;
+            transition: transform 0.4s ease;
+        }
+        .bento-item:hover i {
+            transform: scale(1.1) rotate(5deg);
+        }
+        .bento-item h3 { margin-bottom: 10px; font-size: 1.3rem; }
+        .bento-item p { color: var(--text-muted); font-size: 0.95rem; }
+
+        .item-1 { grid-column: span 2; }
+        .item-2 { grid-column: span 2; }
+        .item-3 { grid-column: span 1; }
+        .item-4 { grid-column: span 2; }
+        .item-5 { grid-column: span 1; }
+
+        /* --- PRICING REWORKED (5 PAKIETÓW) --- */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            align-items: stretch;
+        }
+
+        .price-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 35px 25px;
+            border-radius: 24px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        .price-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 12px 30px var(--accent-glow);
+        }
+        .price-card.featured {
+            border-color: var(--accent);
+            background: rgba(59, 130, 246, 0.04);
+        }
+        .badge-popular {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.7rem;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        .price-card h3 { font-size: 1.4rem; margin-bottom: 5px; }
+        .price-desc { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px; }
+        .price-tag { font-size: 2.2rem; font-weight: 800; color: var(--accent); margin-bottom: 20px; }
+        .price-tag span { font-size: 0.9rem; color: var(--text-muted); font-weight: 400; }
+
+        .features-list { list-style: none; margin-bottom: 25px; flex-grow: 1; }
+        .features-list li { margin-bottom: 10px; font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+        .features-list li i { color: #10b981; font-size: 0.9rem; }
+
+        /* --- CONTACT BOX --- */
+        .contact-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            overflow: hidden;
+        }
+
+        .contact-info { background: var(--accent); color: white; padding: 50px; }
+        .contact-info h2 { font-size: 2.3rem; margin-bottom: 15px; }
+        .contact-form { padding: 50px; }
+
+        .form-group { margin-bottom: 15px; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 14px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* --- ANIMATIONS (SCROLL REVEAL) --- */
+        .reveal { opacity: 0; transform: translateY(40px); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        footer { padding: 40px 5%; text-align: center; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 0.9rem; }
+
+        @media (max-width: 1100px) {
+            .bento-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .item-1, .item-2, .item-3, .item-4, .item-5 { grid-column: span 1; }
+            .contact-box { grid-template-columns: 1fr; }
+            .contact-info { padding: 35px; }
+            .contact-form { padding: 35px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav id="nav">
+        <a href="#" class="logo">Visual<span>WebStudio</span></a>
+        <div class="nav-actions">
+            <div class="theme-switch" id="themeToggle">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </div>
+            <a href="#kontakt" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.85rem;">Darmowa Wycena</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <div class="hero-badge">Tanie & Profesjonalne Strony</div>
+            <h1>Wyjdź Przed Szereg<br><span>Z VisualWebStudio.</span></h1>
+            <p>Tworzę nowoczesne wizytówki, landing page oraz sklepy internetowe z pełnymi animacjami i czystym kodem. Profesjonalna jakość, ekspresowe tempo, uczciwa cena.</p>
+            <div class="hero-btns">
+                <a href="#cennik" class="btn btn-primary">Wybierz Pakiet</a>
+                <a href="#kontakt" class="btn" style="color: var(--text); background: var(--bg-card); margin-left: 10px;">Napisz Do Mnie</a>
+            </div>
+        </section>
+
+        <section class="section-padding reveal">
+            <div class="section-title">
+                <h2>Standard Premium Dla Każdego</h2>
+                <p>Niezależnie od budżetu, każdy projekt traktuję priorytetowo.</p>
+            </div>
+            <div class="bento-grid">
+                <div class="bento-item item-1">
+                    <i class="fas fa-wand-magic-sparkles"></i>
+                    <h3>Płynne Animacje</h3>
+                    <p>Używam nowoczesnych efektów przejścia, dzięki czemu strona reaguje na każdy ruch użytkownika z niesamowitą płynnością.</p>
+                </div>
+                <div class="bento-item item-2">
+                    <i class="fas fa-mobile-screen-button"></i>
+                    <h3>Pełny Respons</h3>
+                    <p>Wizytówki i landingi dopasowują się idealnie do smartfonów, tabletów i laptopów.</p>
+                </div>
+                <div class="bento-item item-3">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Błyskawiczne Ładowanie</h3>
+                    <p>Strony pisane czystym kodem uruchamiają się natychmiastowo.</p>
+                </div>
+                <div class="bento-item item-4">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Gotowe pod Google SEO</h3>
+                    <p>Dbam o optymalizację kodu, aby Twoja nowa strona od razu dobrze pozycjonowała się w wyszukiwarce.</p>
+                </div>
+                <div class="bento-item item-5">
+                    <i class="fas fa-wallet"></i>
+                    <h3>Tania Wycena</h3>
+                    <p>Bez ukrytych kosztów.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="cennik" class="section-padding reveal">
+            <div class="section-title">
+                <h2>Wybierz Swój Pakiet</h2>
+                <p>Kliknij zamówienie, aby błyskawicznie wysłać do mnie gotowe zgłoszenie mailowe.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="price-card">
+                    <h3>Wizytówka Premium</h3>
+                    <p class="price-desc">Idealna dla małych firm lokalnych oraz specjalistów.</p>
+                    <div class="price-tag">299<span> PLN</span></div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Prosta i przejrzysta struktura</li>
+                        <li><i class="fas fa-check"></i> Sekcja O nas / Usługi</li>
+                        <li><i class="fas fa-check"></i> Podstawowe animacje</li>
+                        <li><i class="fas fa-check"></i> Szybki kontakt i mapa</li>
+                    </ul>
+                    <button class="btn btn-primary order-btn" data-package="Wizytówka Premium (299 PLN)">Zamów Pakiet</button>
+                </div>
+
+                <div class="price-card">
+                    <h3>Landing Page</h3>
+                    <p class="price-desc">Strona nastawiona na sprzedaż konkretnej usługi.</p>
+                    <div class="price-tag">499<span> PLN</span></div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Nowoczesny One-Page design</li>
+                        <li><i class="fas fa-check"></i> Formularz kontaktowy</li>
+                        <li><i class="fas fa-check"></i> Płynne animacje sekcji</li>
+                        <li><i class="fas fa-check"></i> Pełna optymalizacja SEO</li>
+                    </ul>
+                    <button class="btn btn-primary order-btn" data-package="Landing Page (499 PLN)">Zamów Pakiet</button>
+                </div>
+
+                <div class="price-card featured">
+                    <div class="badge-popular">POLECANY</div>
+                    <h3>Strona Firmowa</h3>
+                    <p class="price-desc">Rozbudowany projekt wielostronicowy dla marek.</p>
+                    <div class="price-tag">1200<span> PLN</span></div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Do 5 dedykowanych podstron</li>
+                        <li><i class="fas fa-check"></i> Zaawansowane bento grid / animacje</li>
+                        <li><i class="fas fa-check"></i> Statystyki live i podpięcie analityki</li>
+                        <li><i class="fas fa-check"></i> Gwarancja wydajności</li>
+                    </ul>
+                    <button class="btn btn-primary order-btn" data-package="Strona Firmowa (1200 PLN)">Zamów Pakiet</button>
+                </div>
+
+                <div class="price-card">
+                    <h3>E-Commerce Store</h3>
+                    <p class="price-desc">W pełni funkcjonalny, nowoczesny sklep.</p>
+                    <div class="price-tag">2500<span> PLN</span></div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> System zarządzania produktami</li>
+                        <li><i class="fas fa-check"></i> Integracja płatności online</li>
+                        <li><i class="fas fa-check"></i> Koszyk i konta klientów</li>
+                        <li><i class="fas fa-check"></i> Automatyczne powiadomienia</li>
+                    </ul>
+                    <button class="btn btn-primary order-btn" data-package="E-Commerce Store (2500 PLN)">Zamów Pakiet</button>
+                </div>
+
+                <div class="price-card">
+                    <h3>Custom Project</h3>
+                    <p class="price-desc">Indywidualne, nieszablonowe aplikacje webowe.</p>
+                    <div class="price-tag">Wycena<span> ind.</span></div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Systemy skrojone na miarę</li>
+                        <li><i class="fas fa-check"></i> Dowolne animacje i efekty</li>
+                        <li><i class="fas fa-check"></i> Wsparcie techniczne 24/7</li>
+                        <li><i class="fas fa-check"></i> Projekt UI/UX od zera</li>
+                    </ul>
+                    <button class="btn btn-primary order-btn" data-package="Custom Project (Wycena indywidualna)">Zapytaj</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="kontakt" class="section-padding reveal">
+            <div class="contact-box">
+                <div class="contact-info">
+                    <h2>Zaprojektujmy Twój sukces!</h2>
+                    <p style="margin-bottom:40px; color: rgba(255,255,255,0.8);">Wypełnij formularz obok, a system przekieruje Cię do wysłania wiadomości. Odpowiadam błyskawicznie.</p>
+                    
+                    <div style="margin-bottom:20px; display: flex; align-items: center; gap: 15px;">
+                        <i class="fas fa-envelope"></i>
+                        <span>KontaktVisual@gmail.com</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <i class="fas fa-clock"></i>
+                        <span>Darmowa wycena w 2 godziny</span>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="formName" placeholder="Twoje Imię / Nazwa Firmy" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="formEmail" placeholder="Twój adres E-mail" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="formPackage" required>
+                                <option value="">Wybierz interesujący Cię produkt</option>
+                                <option value="Wizytówka Premium (299 PLN)">Wizytówka Premium - 299 PLN</option>
+                                <option value="Landing Page (499 PLN)">Landing Page - 499 PLN</option>
+                                <option value="Strona Firmowa (1200 PLN)">Strona Firmowa - 1200 PLN</option>
+                                <option value="E-Commerce Store (2500 PLN)">E-Commerce Store - 2500 PLN</option>
+                                <option value="Custom Project (Wycena indywidualna)">Custom Project - Wycena Indywidualna</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="formMessage" rows="4" placeholder="Krótki opis Twojej branży i wymagań..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;">Wyślij Zapytanie (Przekieruj do Gmail)</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 VisualWebStudio | Wszystkie prawa zastrzeżone | KontaktVisual@gmail.com</p>
+    </footer>
+
+    <script>
+        // --- ADRES EMAIL SKRZYNKI ODBIORCZEJ ---
+        const TARGET_EMAIL = "KontaktVisual@gmail.com";
+
+        // --- FUNKCJA GENERUJĄCA LINK MAILTO (PRZEKIEROWANIE DO GMAILA) ---
+        function redirectToGmail(packageName, clientName = "", clientEmail = "", clientMsg = "") {
+            const subject = encodeURIComponent(`[Zgłoszenie] Chcę kupić pakiet: ${packageName}`);
+            
+            let bodyText = `Dzień dobry!\n\nChcę dokonać zakupu pakietu: ${packageName} w VisualWebStudio.\n`;
+            if(clientName) bodyText += `Imię / Firma: ${clientName}\n`;
+            if(clientEmail) bodyText += `Email kontaktowy: ${clientEmail}\n`;
+            if(clientMsg) bodyText += `Opis projektu:\n${clientMsg}\n`;
+            bodyText += `\nProszę o kontakt zwrotny w celu omówienia szczegółów i startu realizacji!\nPozdrawiam.`;
+            
+            const body = encodeURIComponent(bodyText);
+            
+            // Otwiera domyślny program pocztowy / Gmaila klienta z uzupełnionymi danymi
+            window.location.href = `mailto:${TARGET_EMAIL}?subject=${subject}&body=${body}`;
+        }
+
+        // --- OBSŁUGA PRZYCISKÓW W CENNIKU ---
+        document.querySelectorAll('.order-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const chosenPackage = this.getAttribute('data-package');
+                redirectToGmail(chosenPackage);
+            });
+        });
+
+        // --- OBSŁUGA CAŁEGO FORMULARZA KONTAKTOWEGO ---
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('formName').value;
+            const email = document.getElementById('formEmail').value;
+            const pack = document.getElementById('formPackage').value;
+            const msg = document.getElementById('formMessage').value;
+
+            redirectToGmail(pack, name, email, msg);
+            this.reset();
+        });
+
+        // --- PRZEŁĄCZNIK MOTYWÓW (DARK / LIGHT MODE) ---
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const root = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = root.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            root.setAttribute('data-theme', newTheme);
+            themeIcon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+            
+            // Efekt obrotu ikony przy kliknięciu
+            themeIcon.style.transform = 'scale(1.2) rotate(360deg)';
+            setTimeout(() => themeIcon.style.transform = 'scale(1) rotate(0)', 300);
+        });
+
+        // --- NAVBAR BLUR SCROLL EFFECT ---
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('nav');
+            if(window.scrollY > 40) nav.classList.add('scrolled');
+            else nav.classList.remove('scrolled');
+        });
+
+        // --- PŁYNNE ANIMACJE POJAWIANIA (INTERSECTION OBSERVER) ---
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
